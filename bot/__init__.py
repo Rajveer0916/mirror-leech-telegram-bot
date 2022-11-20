@@ -177,6 +177,10 @@ UPTOBOX_TOKEN = environ.get('UPTOBOX_TOKEN', '')
 if len(UPTOBOX_TOKEN) == 0:
     UPTOBOX_TOKEN = ''
 
+CRYPT = environ.get('CRYPT', '')
+if len(CRYPT) == 0:
+    CRYPT = ''
+
 INDEX_URL = environ.get('INDEX_URL', '').rstrip("/")
 if len(INDEX_URL) == 0:
     INDEX_URL = ''
@@ -293,6 +297,7 @@ config_dict = {'AS_DOCUMENT': AS_DOCUMENT,
                'BASE_URL': BASE_URL,
                'BOT_TOKEN': BOT_TOKEN,
                'CMD_PERFIX': CMD_PERFIX,
+               'CRYPT': CRYPT
                'DATABASE_URL': DATABASE_URL,
                'DOWNLOAD_DIR': DOWNLOAD_DIR,
                'DUMP_CHAT': DUMP_CHAT,
