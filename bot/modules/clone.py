@@ -40,17 +40,28 @@ def _clone(message, bot):
             tag = reply_to.from_user.mention_html(reply_to.from_user.first_name)
 
     is_gdtot = is_gdtot_link(link)
-    if is_gdtot:
+    is_unified = is_unified_link(link)
+    is_udrive = is_udrive_link(link)
+    is_sharer = is_sharer_link(link)
+    is_sharedrive = is_sharedrive_link(link)
+    if (is_gdtot or is_unified or is_udrive or is_sharer or is_sharedrive):
         try:
            msg = sendMessage(f"Processing: <code>{link}</code>", bot, message)
            LOGGER.info(f"Processing: {link}")
-           if is_gdtot:
+           if is_unified:
+                link = unified(link)
+            if is_gdtot:
                 link = gdtot(link)
-           LOGGER.info(f"Processing GdToT: {link}")
+            if is_udrive:
+                link = udrive(link)
+            if is_sharer:
+                link = sharer_pw_dl(link)
+            if is_sharedrive:
+                link = shareDrive(link)
            deleteMessage(bot, msg)
         except DirectDownloadLinkException as e:
-           deleteMessage(bot, msg)
-           return sendMessage(str(e), bot, message)
+            deleteMessage(bot, msg)
+            return sendMessage(str(e), bot, message)
     if is_gdrive_link(link):
         gd = GoogleDriveHelper()
         res, size, name, files = gd.helper(link)
@@ -101,10 +112,10 @@ def _clone(message, bot):
         else:
             sendMarkup(result + cc, bot, message, button)
             LOGGER.info(f'Cloning Done: {name}')
-        if is_gdtot:
+        if (is_gdtot or is_unified or is_udrive or is_sharer or is_sharedrive):
             gd.deletefile(link)
     else:
-        sendMessage("Send Gdrive or GDToT link along with command or by replying to the link by command\n\n<b>Multi links only by replying to first link/file:</b>\n<code>/cmd</code> 10(number of links/files)", bot, message)
+        sendMessage("Send Gdrive or GDToT/AppDrive/DriveApp/GDFlix/DriveAce/DriveLinks/DriveBit/DriveSharer/Anidrive/Driveroot/Driveflix/Indidrive/drivehub(in)/HubDrive/DriveHub(ws)/KatDrive/Kolop/DriveFire/DriveBuzz/SharerPw/ShareDrive link along with command or by replying to the link by command\n\n<b>Multi links only by replying to first link/file:</b>\n<code>/cmd</code> 10(number of links/files)", bot, message)
 
 @new_thread
 def cloneNode(update, context):
