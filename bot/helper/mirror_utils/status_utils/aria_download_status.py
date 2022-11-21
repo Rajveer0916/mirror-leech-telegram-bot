@@ -1,7 +1,7 @@
 from time import time
 
 from bot import aria2, LOGGER
-from bot.helper.ext_utils.bot_utils import MirrorStatus, get_readable_time
+from bot.helper.ext_utils.bot_utils import MirrorStatus, get_readable_time, EngineStatus
 
 def get_download(gid):
     try:
@@ -99,6 +99,9 @@ class AriaDownloadStatus:
     def gid(self):
         self.__update()
         return self.__gid
+    
+    def eng(self):
+        return EngineStatus.STATUS_ARIA
 
     def cancel_download(self):
         self.__update()
