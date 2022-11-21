@@ -1,13 +1,19 @@
 from base64 import b64encode
-from re import match as re_match, split as re_split
-from os import path as ospath
+from re import match as re_match, search as re_search, split as re_split
+from os import path as ospath, remove as osremove, listdir, walk
 from time import sleep, time
+from shutil import rmtree
+from pyrogram import enums
 from threading import Thread
+from subprocess import run as srun
+from pathlib import PurePath
 from telegram.ext import CommandHandler
-from requests import get as rget
+from requests import get as rget, utils as rutils
+from telegram import ParseMode
 
+from bot import *
 from bot import dispatcher, DOWNLOAD_DIR, LOGGER
-from bot.helper.ext_utils.bot_utils import is_url, is_magnet, is_mega_link, is_gdrive_link, get_content_type
+from bot.helper.ext_utils.bot_utils import *
 from bot.helper.ext_utils.exceptions import DirectDownloadLinkException
 from bot.helper.mirror_utils.download_utils.aria2_download import add_aria2c_download
 from bot.helper.mirror_utils.download_utils.gd_downloader import add_gd_download
@@ -17,13 +23,18 @@ from bot.helper.mirror_utils.download_utils.direct_link_generator import direct_
 from bot.helper.mirror_utils.download_utils.telegram_downloader import TelegramDownloadHelper
 from bot.helper.telegram_helper.bot_commands import BotCommands
 from bot.helper.telegram_helper.filters import CustomFilters
-from bot.helper.telegram_helper.message_utils import sendMessage
+from bot.helper.telegram_helper.message_utils import sendMessage, sendMessage, sendMarkup, delete_all_messages, update_all_messages, auto_delete_message
 from .listener import MirrorLeechListener
 
 
 def _mirror_leech(bot, message, isZip=False, extract=False, isQbit=False, isLeech=False):
     mesg = message.text.split('\n')
     message_args = mesg[0].split(maxsplit=1)
+    is_gdtot = False
+    is_unified = False
+    is_udrive = False
+    is_sharer = False
+    is_sharedrive = False
     index = 1
     ratio = None
     seed_time = None
@@ -151,6 +162,11 @@ Number should be always before |newname or pswd:
         content_type = get_content_type(link)
         if content_type is None or re_match(r'text/html|text/plain', content_type):
             try:
+                is_gdtot = is_gdtot_link(link)
+                is_unified = is_unified_link(link)
+                is_udrive = is_udrive_link(link)
+                is_sharer = is_sharer_link(link)
+                is_sharedrive = is_sharedrive_link(link)
                 link = direct_link_generator(link)
                 LOGGER.info(f"Generated link: {link}")
             except DirectDownloadLinkException as e:
@@ -192,7 +208,7 @@ Number should be always before |newname or pswd:
             gmsg += f"Use /{BotCommands.UnzipMirrorCommand[0]} to extracts Google Drive archive folder/file"
             sendMessage(gmsg, bot, message)
         else:
-            Thread(target=add_gd_download, args=(link, f'{DOWNLOAD_DIR}{listener.uid}', listener, name)).start()
+            Thread(target=add_gd_download, args=(link, f'{DOWNLOAD_DIR}{listener.uid}', listener, name, is_gdtot, is_unified, is_udrive, is_sharer, is_sharedrive)).start()
     elif is_mega_link(link):
         Thread(target=add_mega_download, args=(link, f'{DOWNLOAD_DIR}{listener.uid}/', listener, name)).start()
     elif isQbit and (is_magnet(link) or ospath.exists(link)):
