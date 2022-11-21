@@ -1,5 +1,5 @@
 from bot import DOWNLOAD_DIR
-from bot.helper.ext_utils.bot_utils import MirrorStatus, get_readable_file_size, get_readable_time
+from bot.helper.ext_utils.bot_utils import MirrorStatus, get_readable_file_size, get_readable_time, EngineStatus
 from bot.helper.ext_utils.fs_utils import get_path_size
 
 class YtDlpDownloadStatus:
@@ -33,6 +33,9 @@ class YtDlpDownloadStatus:
     def progress_raw(self):
         return self.__obj.progress
 
+    def eng(self):
+        return EngineStatus.STATUS_YT
+    
     def progress(self):
         return f'{round(self.progress_raw(), 2)}%'
 
