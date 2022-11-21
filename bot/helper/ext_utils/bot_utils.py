@@ -41,7 +41,17 @@ class MirrorStatus:
      STATUS_CHECKING = "📝 CheckUp"
      STATUS_SEEDING = "🌧 Seed"
     
-    
+class EngineStatus:
+    STATUS_ARIA = "<b>Aria2c📶</b>"
+    STATUS_GD = "<b>Google Api♻️</b>"
+    STATUS_MEGA = "<b>MegaSDK⭕️</b>"
+    STATUS_QB = "<b>qBittorrent🦠</b>"
+    STATUS_TG = "<b>Pyrogram💥</b>"
+    STATUS_YT = "<b>YT-dlp🌟</b>"
+    STATUS_EXT = "<b>Extract | pExtract⚔️</b>"
+    STATUS_SPLIT = "<b>FFmpeg✂️</b>"
+    STATUS_ZIP = "<b>p7zip🛠</b>"
+     
 PROGRESS_MAX_SIZE = 100 // 9
 PROGRESS_INCOMPLETE = ['◔', '◔', '◑', '◑', '◑', '◕', '◕']
 # PROGRESS_INCOMPLETE = ['◌', '◌', '◎', '◎', '◎', '◍', '◍', '◍']
@@ -208,7 +218,7 @@ def get_readable_message():
                 msg += f"\n<b>├ Speed:</b> {download.speed()}"
                 msg += f"\n<b>├ ETA:</b> {download.eta()}"
                 msg += f"<b> | Elapsed: </b>{get_readable_time(time() - download.message.date.timestamp())}"
-               # msg += f"\n<b>├ Engine :</b> {download.eng()}"
+                msg += f"\n<b>├ Engine :</b> {download.eng()}"
                 
                 if hasattr(download, 'seeders_num'):
                     try:
@@ -217,7 +227,7 @@ def get_readable_message():
                         pass
             elif download.status() == MirrorStatus.STATUS_SEEDING:
                     msg += f"\n<b>├ Size: </b>{download.size()}"
-                   # msg += f"\n<b>├ Engine:</b> <code>qBittorrent v4.4.2</code>"
+                    msg += f"\n<b>├ Engine:</b> <code>qBittorrent v4.4.2</code>"
                     msg += f"\n<b>├ Speed: </b>{download.upload_speed()}"
                     msg += f"\n<b>├ Uploaded: </b>{download.uploaded_bytes()}"
                     msg += f"\n<b>├ Ratio: </b>{download.ratio()}"
