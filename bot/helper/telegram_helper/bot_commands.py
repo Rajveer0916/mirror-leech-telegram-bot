@@ -20,7 +20,7 @@ class _BotCommands:
         self.QbZipLeechCommand = (f'qbzipleech{CMD_PERFIX}', f'qzl{CMD_PERFIX}')
         self.YtdlLeechCommand = (f'ytdlleech{CMD_PERFIX}', f'yl{CMD_PERFIX}')
         self.YtdlZipLeechCommand = (f'ytdlzipleech{CMD_PERFIX}', f'yzl{CMD_PERFIX}')
-        self.CloneCommand = f'clone{CMD_PERFIX}'
+        self.CloneCommand = (f'clone{CMD_PERFIX}', f'c{CMD_PERFIX}')
         self.CountCommand = f'count{CMD_PERFIX}'
         self.DeleteCommand = f'del{CMD_PERFIX}'
         self.CancelMirror = f'cancel{CMD_PERFIX}'
@@ -42,8 +42,8 @@ class _BotCommands:
         self.EvalCommand = f'eval{CMD_PERFIX}'
         self.ExecCommand = f'exec{CMD_PERFIX}'
         self.ClearLocalsCommand = f'clearlocals{CMD_PERFIX}'
-        self.BotSetCommand = f'bsetting{CMD_PERFIX}'
-        self.UserSetCommand = f'usetting{CMD_PERFIX}'
+        self.BotSetCommand = (f'bsetting{CMD_PERFIX}', f'bs{CMD_PERFIX}')
+        self.UserSetCommand = (f'usetting{CMD_PERFIX}', f'us{CMD_PERFIX}')
         self.BtSelectCommand = f'btsel{CMD_PERFIX}'
         self.RssListCommand = (f'rsslist{CMD_PERFIX}', f'rl{CMD_PERFIX}')
         self.RssGetCommand = (f'rssget{CMD_PERFIX}', f'rg{CMD_PERFIX}')
