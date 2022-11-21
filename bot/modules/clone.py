@@ -50,13 +50,13 @@ def _clone(message, bot):
            LOGGER.info(f"Processing: {link}")
            if is_unified:
                 link = unified(link)
-            if is_gdtot:
+           if is_gdtot:
                 link = gdtot(link)
-            if is_udrive:
+           if is_udrive:
                 link = udrive(link)
-            if is_sharer:
+           if is_sharer:
                 link = sharer_pw_dl(link)
-            if is_sharedrive:
+           if is_sharedrive:
                 link = shareDrive(link)
            deleteMessage(bot, msg)
         except DirectDownloadLinkException as e:
